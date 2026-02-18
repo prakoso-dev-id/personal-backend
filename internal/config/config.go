@@ -2,8 +2,9 @@ package config
 
 import (
 	"log"
+	"os"
 
-	"github.com/spf13/viper"
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -13,10 +14,9 @@ type Config struct {
 }
 
 type ServerConfig struct {
-	Port         string
-	Mode         string
-	BaseURL      string `mapstructure:"base_url"`
-	CleanStorage bool
+	Port    string
+	Mode    string
+	BaseURL string
 }
 
 type DatabaseConfig struct {
@@ -34,59 +34,52 @@ type JWTConfig struct {
 }
 
 func LoadConfig() (*Config, error) {
-	// Set defaults
-	viper.SetDefault("server.port", "8080")
-	viper.SetDefault("server.mode", "debug")
-	viper.SetDefault("server.base_url", "http://localhost:8080")
-	viper.SetDefault("jwt.expiration", 24)
-	viper.SetDefault("database.sslmode", "disable")
-
-	// Read config.yaml first
-	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".")
-
-	if err := viper.ReadInConfig(); err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			log.Println("config.yaml not found, using defaults/environment variables")
-		} else {
-			log.Printf("Warning: error reading config.yaml: %v", err)
-		}
-	}
-
-	// Try to read .env file (optional, won't crash if missing)
-	viper.SetConfigFile(".env")
-	viper.SetConfigType("env")
-	if err := viper.MergeInConfig(); err != nil {
+	// Load .env file if it exists (won't error if missing)
+	if err := godotenv.Load(); err != nil {
 		log.Println(".env file not found, using environment variables")
 	}
 
-	// Always read OS environment variables (Docker injects these)
-	viper.AutomaticEnv()
-
-	// Map ENV vars to config struct
-	viper.BindEnv("database.host", "DB_HOST")
-	viper.BindEnv("database.port", "DB_PORT")
-	viper.BindEnv("database.user", "DB_USER")
-	viper.BindEnv("database.password", "DB_PASSWORD")
-	viper.BindEnv("database.dbname", "DB_NAME")
-	viper.BindEnv("database.sslmode", "DB_SSLMODE")
-	viper.BindEnv("jwt.secret", "JWT_SECRET")
-	viper.BindEnv("server.base_url", "SERVER_BASE_URL")
-
-    // Manual mapping for flat .env file to nested struct
-    if viper.IsSet("DB_HOST") { viper.Set("database.host", viper.GetString("DB_HOST")) }
-    if viper.IsSet("DB_PORT") { viper.Set("database.port", viper.GetString("DB_PORT")) }
-    if viper.IsSet("DB_USER") { viper.Set("database.user", viper.GetString("DB_USER")) }
-    if viper.IsSet("DB_PASSWORD") { viper.Set("database.password", viper.GetString("DB_PASSWORD")) }
-    if viper.IsSet("DB_NAME") { viper.Set("database.dbname", viper.GetString("DB_NAME")) }
-    // SSLMode might not be in .env, default was set above
-    if viper.IsSet("DB_SSLMODE") { viper.Set("database.sslmode", viper.GetString("DB_SSLMODE")) }
-
-	var cfg Config
-	if err := viper.Unmarshal(&cfg); err != nil {
-		return nil, err
+	cfg := &Config{
+		Server: ServerConfig{
+			Port:    getEnv("SERVER_PORT", "8080"),
+			Mode:    getEnv("SERVER_MODE", "debug"),
+			BaseURL: getEnv("SERVER_BASE_URL", "http://localhost:8080"),
+		},
+		Database: DatabaseConfig{
+			Host:     getEnv("DB_HOST", "localhost"),
+			Port:     getEnv("DB_PORT", "5432"),
+			User:     getEnv("DB_USER", "postgres"),
+			Password: getEnv("DB_PASSWORD", "password"),
+			DBName:   getEnv("DB_NAME", "personal_db"),
+			SSLMode:  getEnv("DB_SSLMODE", "disable"),
+		},
+		JWT: JWTConfig{
+			Secret:     getEnv("JWT_SECRET", "change_this_secret_in_production"),
+			Expiration: getEnvAsInt("JWT_EXPIRATION", 24),
+		},
 	}
 
-	return &cfg, nil
+	return cfg, nil
+}
+
+func getEnv(key, fallback string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return fallback
+}
+
+func getEnvAsInt(key string, fallback int) int {
+	if value, ok := os.LookupEnv(key); ok {
+		var result int
+		for _, c := range value {
+			if c >= '0' && c <= '9' {
+				result = result*10 + int(c-'0')
+			} else {
+				return fallback
+			}
+		}
+		return result
+	}
+	return fallback
 }

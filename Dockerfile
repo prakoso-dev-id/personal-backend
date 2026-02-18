@@ -25,8 +25,7 @@ WORKDIR /app
 # Copy binary from builder
 COPY --from=builder /app/server .
 
-# Copy config (can be overridden via env vars or volume mount)
-COPY config.yaml .
+# Config is handled via environment variables (.env file)
 
 # Create storage directory
 RUN mkdir -p /app/storage/uploads
