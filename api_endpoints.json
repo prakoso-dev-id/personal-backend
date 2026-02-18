@@ -1,0 +1,399 @@
+[
+  {
+    "category": "Auth",
+    "endpoints": [
+      {
+        "method": "POST",
+        "path": "/api/admin/login",
+        "summary": "Admin Login",
+        "auth_required": false,
+        "body": {
+          "email": "string (required, email)",
+          "password": "string (required)"
+        }
+      },
+      {
+        "method": "PUT",
+        "path": "/api/admin/update-email",
+        "summary": "Update Admin Email",
+        "auth_required": true,
+        "body": {
+          "email": "string (required, email)"
+        }
+      },
+      {
+        "method": "PUT",
+        "path": "/api/admin/update-password",
+        "summary": "Update Admin Password",
+        "auth_required": true,
+        "body": {
+          "password": "string (required, min=6)"
+        }
+      }
+    ]
+  },
+  {
+    "category": "Contact",
+    "endpoints": [
+      {
+        "method": "POST",
+        "path": "/api/public/contact",
+        "summary": "Send Contact Message",
+        "auth_required": false,
+        "body": {
+          "name": "string (required)",
+          "email": "string (required, email)",
+          "subject": "string",
+          "message": "string (required)"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/messages",
+        "summary": "Get All Messages",
+        "auth_required": true
+      }
+    ]
+  },
+  {
+    "category": "Images",
+    "endpoints": [
+      {
+        "method": "POST",
+        "path": "/api/admin/images/upload",
+        "summary": "Upload Image",
+        "auth_required": true,
+        "body": {
+          "content_type": "multipart/form-data",
+          "fields": {
+            "file": "file (required)"
+          }
+        }
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/admin/images/:id",
+        "summary": "Delete Image",
+        "auth_required": true,
+        "params": {
+          "id": "uuid (required)"
+        }
+      }
+    ]
+  },
+  {
+    "category": "Posts",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/api/public/posts",
+        "summary": "Get All Posts (Public)",
+        "auth_required": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/public/posts/:slug",
+        "summary": "Get Post by Slug (Public)",
+        "auth_required": false,
+        "params": {
+          "slug": "string (required)"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/posts",
+        "summary": "Get All Posts (Admin)",
+        "auth_required": true,
+        "query": {
+          "page": "int (default 1)",
+          "limit": "int (default 10)"
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/posts",
+        "summary": "Create Post",
+        "auth_required": true,
+        "body": {
+          "title": "string",
+          "content_markdown": "string",
+          "summary": "string",
+          "is_published": "bool",
+          "tags": [
+            "string"
+          ],
+          "images": [
+            {
+              "file_name": "string",
+              "file_path": "string",
+              "mime_type": "string",
+              "size": "int64"
+            }
+          ]
+        }
+      },
+      {
+        "method": "PUT",
+        "path": "/api/admin/posts/:id",
+        "summary": "Update Post",
+        "auth_required": true,
+        "params": {
+          "id": "uuid (required)"
+        },
+        "body": {
+          "title": "string",
+          "content_markdown": "string",
+          "summary": "string",
+          "is_published": "bool",
+          "tags": [
+            "string"
+          ],
+          "images": [
+            {
+              "file_name": "string",
+              "file_path": "string",
+              "mime_type": "string",
+              "size": "int64"
+            }
+          ]
+        }
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/admin/posts/:id",
+        "summary": "Delete Post",
+        "auth_required": true,
+        "params": {
+          "id": "uuid (required)"
+        }
+      }
+    ]
+  },
+  {
+    "category": "Profiles",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/api/public/profile",
+        "summary": "Get Profile (Public)",
+        "auth_required": false
+      },
+      {
+        "method": "PUT",
+        "path": "/api/admin/profile",
+        "summary": "Update Profile",
+        "auth_required": true,
+        "body": {
+          "full_name": "string",
+          "bio": "string",
+          "avatar_url": "string",
+          "resume_url": "string"
+        }
+      }
+    ]
+  },
+  {
+    "category": "Projects",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/api/public/projects",
+        "summary": "Get All Projects (Public)",
+        "auth_required": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/public/projects/:id",
+        "summary": "Get Project by ID (Public)",
+        "auth_required": false,
+        "params": {
+          "id": "uuid (required)"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/projects",
+        "summary": "Get All Projects (Admin)",
+        "auth_required": true,
+        "query": {
+          "page": "int (default 1)",
+          "limit": "int (default 10)"
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/projects",
+        "summary": "Create Project",
+        "auth_required": true,
+        "body": {
+          "title": "string",
+          "description": "string",
+          "content_markdown": "string",
+          "demo_url": "string",
+          "repo_url": "string",
+          "start_date": "string (YYYY-MM-DD)",
+          "end_date": "string (YYYY-MM-DD)",
+          "is_featured": "bool",
+          "experience_id": "string (UUID, optional)",
+          "skill_ids": [
+            "string (UUID)"
+          ],
+          "images": [
+            {
+              "file_name": "string",
+              "file_path": "string",
+              "mime_type": "string",
+              "size": "int64"
+            }
+          ]
+        }
+      },
+      {
+        "method": "PUT",
+        "path": "/api/admin/projects/:id",
+        "summary": "Update Project",
+        "auth_required": true,
+        "params": {
+          "id": "uuid (required)"
+        },
+        "body": {
+          "title": "string",
+          "description": "string",
+          "content_markdown": "string",
+          "demo_url": "string",
+          "repo_url": "string",
+          "start_date": "string (YYYY-MM-DD)",
+          "end_date": "string (YYYY-MM-DD)",
+          "is_featured": "bool",
+          "experience_id": "string (UUID, optional)",
+          "skill_ids": [
+            "string (UUID)"
+          ],
+          "images": [
+            {
+              "file_name": "string",
+              "file_path": "string",
+              "mime_type": "string",
+              "size": "int64"
+            }
+          ]
+        }
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/admin/projects/:id",
+        "summary": "Delete Project",
+        "auth_required": true,
+        "params": {
+          "id": "uuid (required)"
+        }
+      }
+    ]
+  },
+  {
+    "category": "Skills",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/api/public/skills",
+        "summary": "Get All Skills (Public)",
+        "auth_required": false,
+        "query": {
+          "page": "int",
+          "limit": "int"
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/skills",
+        "summary": "Create Skill",
+        "auth_required": true,
+        "body": {
+          "name": "string (required)",
+          "category": "string (required)",
+          "icon_url": "string"
+        }
+      },
+      {
+        "method": "PUT",
+        "path": "/api/admin/skills/:id",
+        "summary": "Update Skill",
+        "auth_required": true,
+        "params": {
+          "id": "uuid (required)"
+        },
+        "body": {
+          "name": "string",
+          "category": "string",
+          "icon_url": "string"
+        }
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/admin/skills/:id",
+        "summary": "Delete Skill",
+        "auth_required": true,
+        "params": {
+          "id": "uuid (required)"
+        }
+      }
+    ]
+  },
+  {
+    "category": "Experiences",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/api/public/experiences",
+        "summary": "Get All Experiences (Public)",
+        "auth_required": false
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/experiences",
+        "summary": "Get All Experiences (Admin)",
+        "auth_required": true
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/experiences",
+        "summary": "Create Experience",
+        "auth_required": true,
+        "body": {
+          "company": "string (required)",
+          "position": "string (required)",
+          "description": "string",
+          "start_date": "string (date-time, required)",
+          "end_date": "string (date-time, optional)",
+          "is_current": "boolean"
+        }
+      },
+      {
+        "method": "PUT",
+        "path": "/api/admin/experiences/:id",
+        "summary": "Update Experience",
+        "auth_required": true,
+        "params": {
+          "id": "uuid (required)"
+        },
+        "body": {
+          "company": "string",
+          "position": "string",
+          "description": "string",
+          "start_date": "string (date-time)",
+          "end_date": "string (date-time)",
+          "is_current": "boolean"
+        }
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/admin/experiences/:id",
+        "summary": "Delete Experience",
+        "auth_required": true,
+        "params": {
+          "id": "uuid (required)"
+        }
+      }
+    ]
+  }
+]

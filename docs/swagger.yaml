@@ -1,0 +1,1394 @@
+definitions:
+  auth.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  auth.UpdateEmailRequest:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  auth.UpdatePasswordRequest:
+    properties:
+      password:
+        minLength: 6
+        type: string
+    required:
+    - password
+    type: object
+  contact.ContactMessage:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      message:
+        type: string
+      name:
+        type: string
+      status:
+        type: string
+      subject:
+        type: string
+    type: object
+  contact.CreateMessageRequest:
+    properties:
+      email:
+        type: string
+      message:
+        type: string
+      name:
+        type: string
+      subject:
+        type: string
+    required:
+    - email
+    - message
+    - name
+    type: object
+  experiences.CreateExperienceRequest:
+    properties:
+      company:
+        type: string
+      description:
+        type: string
+      end_date:
+        type: string
+      is_current:
+        type: boolean
+      position:
+        type: string
+      start_date:
+        type: string
+    required:
+    - company
+    - position
+    - start_date
+    type: object
+  experiences.Experience:
+    properties:
+      company:
+        type: string
+      createdAt:
+        type: string
+      description:
+        type: string
+      endDate:
+        type: string
+      id:
+        type: string
+      isCurrent:
+        type: boolean
+      position:
+        type: string
+      profileID:
+        type: string
+      projects:
+        items:
+          $ref: '#/definitions/projects.Project'
+        type: array
+      startDate:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  experiences.UpdateExperienceRequest:
+    properties:
+      company:
+        type: string
+      description:
+        type: string
+      end_date:
+        type: string
+      is_current:
+        type: boolean
+      position:
+        type: string
+      start_date:
+        type: string
+    type: object
+  images.Image:
+    properties:
+      altText:
+        type: string
+      createdAt:
+        type: string
+      entityID:
+        type: string
+      entityType:
+        type: string
+      fileName:
+        type: string
+      filePath:
+        type: string
+      id:
+        type: string
+      isPrimary:
+        type: boolean
+      mimeType:
+        type: string
+      orderIndex:
+        type: integer
+      size:
+        format: int64
+        type: integer
+    type: object
+  images.ImageUploadResult:
+    properties:
+      file_name:
+        type: string
+      file_path:
+        type: string
+      mime_type:
+        type: string
+      size:
+        type: integer
+    type: object
+  pagination.Meta:
+    properties:
+      current_page:
+        type: integer
+      limit:
+        type: integer
+      total_data:
+        type: integer
+      total_page:
+        type: integer
+    type: object
+  pagination.PaginatedResponse:
+    properties:
+      data: {}
+      meta:
+        $ref: '#/definitions/pagination.Meta'
+    type: object
+  posts.CreatePostRequest:
+    properties:
+      content_markdown:
+        type: string
+      images:
+        items:
+          $ref: '#/definitions/images.ImageUploadResult'
+        type: array
+      is_published:
+        type: boolean
+      summary:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      title:
+        type: string
+    type: object
+  posts.Post:
+    properties:
+      contentMarkdown:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      images:
+        items:
+          $ref: '#/definitions/images.Image'
+        type: array
+      isPublished:
+        type: boolean
+      publishedAt:
+        type: string
+      slug:
+        type: string
+      summary:
+        type: string
+      tags:
+        items:
+          $ref: '#/definitions/posts.Tag'
+        type: array
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  posts.Tag:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      slug:
+        type: string
+    type: object
+  posts.UpdatePostRequest:
+    properties:
+      content_markdown:
+        type: string
+      images:
+        items:
+          $ref: '#/definitions/images.ImageUploadResult'
+        type: array
+      is_published:
+        type: boolean
+      summary:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      title:
+        type: string
+    type: object
+  profiles.Experience:
+    properties:
+      company:
+        type: string
+      createdAt:
+        type: string
+      description:
+        type: string
+      endDate:
+        type: string
+      id:
+        type: string
+      location:
+        type: string
+      position:
+        type: string
+      profileID:
+        type: string
+      startDate:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  profiles.Profile:
+    properties:
+      avatarURL:
+        type: string
+      bio:
+        type: string
+      createdAt:
+        type: string
+      experiences:
+        items:
+          $ref: '#/definitions/profiles.Experience'
+        type: array
+      fullName:
+        type: string
+      id:
+        type: string
+      resumeURL:
+        type: string
+      skills:
+        items:
+          $ref: '#/definitions/skills.Skill'
+        type: array
+      socialLinks:
+        items:
+          $ref: '#/definitions/profiles.SocialLink'
+        type: array
+      updatedAt:
+        type: string
+      userID:
+        type: string
+    type: object
+  profiles.SocialLink:
+    properties:
+      id:
+        type: string
+      orderIndex:
+        type: integer
+      platform:
+        type: string
+      profileID:
+        type: string
+      url:
+        type: string
+    type: object
+  profiles.UpdateProfileRequest:
+    properties:
+      avatar_url:
+        type: string
+      bio:
+        type: string
+      full_name:
+        type: string
+      resume_url:
+        type: string
+    type: object
+  projects.CreateProjectRequest:
+    properties:
+      content_markdown:
+        type: string
+      demo_url:
+        type: string
+      description:
+        type: string
+      end_date:
+        description: YYYY-MM-DD
+        type: string
+      experience_id:
+        description: UUID or null
+        type: string
+      images:
+        items:
+          $ref: '#/definitions/images.ImageUploadResult'
+        type: array
+      is_featured:
+        type: boolean
+      repo_url:
+        type: string
+      skill_ids:
+        description: UUIDs
+        items:
+          type: string
+        type: array
+      start_date:
+        description: YYYY-MM-DD
+        type: string
+      title:
+        type: string
+    type: object
+  projects.Project:
+    properties:
+      contentMarkdown:
+        type: string
+      createdAt:
+        type: string
+      demoURL:
+        type: string
+      description:
+        type: string
+      endDate:
+        type: string
+      experienceID:
+        type: string
+      id:
+        type: string
+      images:
+        items:
+          $ref: '#/definitions/images.Image'
+        type: array
+      isFeatured:
+        type: boolean
+      repoURL:
+        type: string
+      skills:
+        items:
+          $ref: '#/definitions/skills.Skill'
+        type: array
+      slug:
+        type: string
+      startDate:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  projects.UpdateProjectRequest:
+    properties:
+      content_markdown:
+        type: string
+      demo_url:
+        type: string
+      description:
+        type: string
+      end_date:
+        type: string
+      experience_id:
+        type: string
+      images:
+        items:
+          $ref: '#/definitions/images.ImageUploadResult'
+        type: array
+      is_featured:
+        type: boolean
+      repo_url:
+        type: string
+      skill_ids:
+        items:
+          type: string
+        type: array
+      start_date:
+        type: string
+      title:
+        type: string
+    type: object
+  skills.CreateSkillRequest:
+    properties:
+      category:
+        type: string
+      icon_url:
+        type: string
+      name:
+        type: string
+    required:
+    - category
+    - name
+    type: object
+  skills.Skill:
+    properties:
+      category:
+        type: string
+      iconURL:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  skills.UpdateSkillRequest:
+    properties:
+      category:
+        type: string
+      icon_url:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /admin/experiences:
+    get:
+      description: Retrieve a list of all experiences for admin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/experiences.Experience'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Get All Experiences
+      tags:
+      - Admin - Experiences
+    post:
+      consumes:
+      - application/json
+      description: Create a new experience
+      parameters:
+      - description: Experience Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/experiences.CreateExperienceRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/experiences.Experience'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Create Experience
+      tags:
+      - Admin - Experiences
+  /admin/experiences/{id}:
+    delete:
+      description: Delete an experience
+      parameters:
+      - description: Experience ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Delete Experience
+      tags:
+      - Admin - Experiences
+    put:
+      consumes:
+      - application/json
+      description: Update an existing experience
+      parameters:
+      - description: Experience ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Experience Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/experiences.UpdateExperienceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/experiences.Experience'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Update Experience
+      tags:
+      - Admin - Experiences
+  /admin/images/{id}:
+    delete:
+      description: Delete an image
+      parameters:
+      - description: Image ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Delete Image
+      tags:
+      - Admin - Images
+  /admin/images/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload an image file to storage. Returns file details to be used
+        in other endpoints.
+      parameters:
+      - description: Image File
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/images.ImageUploadResult'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Upload Image
+      tags:
+      - Admin - Images
+  /admin/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates an admin user and returns a JWT token
+      parameters:
+      - description: Login Credentials
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/auth.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Admin - Login
+      tags:
+      - Admin - Auth
+  /admin/messages:
+    get:
+      description: Retrieve all contact messages
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/contact.ContactMessage'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Get All Messages
+      tags:
+      - Admin - Contact
+  /admin/posts:
+    get:
+      description: Retrieve a paginated list of all posts (including unpublished)
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pagination.PaginatedResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Get All Posts
+      tags:
+      - Admin - Posts
+    post:
+      consumes:
+      - application/json
+      description: Create a new post
+      parameters:
+      - description: Post Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/posts.CreatePostRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/posts.Post'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Create Post
+      tags:
+      - Admin - Posts
+  /admin/posts/{id}:
+    delete:
+      description: Delete a post
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Delete Post
+      tags:
+      - Admin - Posts
+    put:
+      consumes:
+      - application/json
+      description: Update an existing post
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Post Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/posts.UpdatePostRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/posts.Post'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Update Post
+      tags:
+      - Admin - Posts
+  /admin/profile:
+    put:
+      consumes:
+      - application/json
+      description: Update details of the user profile
+      parameters:
+      - description: Profile Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/profiles.UpdateProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/profiles.Profile'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Update Profile
+      tags:
+      - Admin - Profile
+  /admin/projects:
+    get:
+      description: Retrieve a paginated list of all projects
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pagination.PaginatedResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Get All Projects
+      tags:
+      - Admin - Projects
+    post:
+      consumes:
+      - application/json
+      description: Create a new project
+      parameters:
+      - description: Project Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/projects.CreateProjectRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/projects.Project'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Create Project
+      tags:
+      - Admin - Projects
+  /admin/projects/{id}:
+    delete:
+      description: Delete a project
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Delete Project
+      tags:
+      - Admin - Projects
+    put:
+      consumes:
+      - application/json
+      description: Update an existing project
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Project Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/projects.UpdateProjectRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/projects.Project'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Update Project
+      tags:
+      - Admin - Projects
+  /admin/skills:
+    post:
+      consumes:
+      - application/json
+      description: Create a new skill
+      parameters:
+      - description: Skill Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/skills.CreateSkillRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/skills.Skill'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Create Skill
+      tags:
+      - Admin - Skills
+  /admin/skills/{id}:
+    delete:
+      description: Delete a skill
+      parameters:
+      - description: Skill ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Delete Skill
+      tags:
+      - Admin - Skills
+    put:
+      consumes:
+      - application/json
+      description: Update an existing skill
+      parameters:
+      - description: Skill ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Skill Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/skills.UpdateSkillRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/skills.Skill'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Update Skill
+      tags:
+      - Admin - Skills
+  /admin/update-email:
+    put:
+      consumes:
+      - application/json
+      description: Update the authenticated admin's email address
+      parameters:
+      - description: New Email
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/auth.UpdateEmailRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Update Email
+      tags:
+      - Admin - Auth
+  /admin/update-password:
+    put:
+      consumes:
+      - application/json
+      description: Update the authenticated admin's password
+      parameters:
+      - description: New Password
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/auth.UpdatePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Admin - Update Password
+      tags:
+      - Admin - Auth
+  /public/contact:
+    post:
+      consumes:
+      - application/json
+      description: Send a contact message
+      parameters:
+      - description: Message
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contact.CreateMessageRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/contact.ContactMessage'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Public - Send Contact Message
+      tags:
+      - Public - Contact
+  /public/experiences:
+    get:
+      description: Retrieve a list of all experiences
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/experiences.Experience'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Public - Get All Experiences
+      tags:
+      - Public - Experiences
+  /public/posts:
+    get:
+      description: Retrieve a list of all published posts
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/posts.Post'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Public - Get All Posts
+      tags:
+      - Public - Posts
+  /public/profile:
+    get:
+      description: Retrieve the user profile
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/profiles.Profile'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Public - Get Profile
+      tags:
+      - Public - Profile
+  /public/projects:
+    get:
+      description: Retrieve a list of all projects
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/projects.Project'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Public - Get All Projects
+      tags:
+      - Public - Projects
+  /public/skills:
+    get:
+      description: Retrieve a list of all skills
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/skills.Skill'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Public - Get All Skills
+      tags:
+      - Public - Skills
+swagger: "2.0"

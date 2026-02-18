@@ -1,0 +1,17 @@
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+
+# Binary
+*.exe
+
+# Local storage (will use Docker volume)
+storage/
+
+# Misc
+*.md
+LICENSE
