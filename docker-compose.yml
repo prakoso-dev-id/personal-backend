@@ -1,7 +1,4 @@
-version: "3.8"
-
 services:
-  # ---- Go Backend ----
   backend:
     build:
       context: .
@@ -16,7 +13,13 @@ services:
       DB_SSLMODE: disable
     volumes:
       - image_storage:/app/storage
+    networks:
+      - app-network
 
 volumes:
   image_storage:
     name: personal-image-storage
+
+networks:
+  app-network:
+    external: true
