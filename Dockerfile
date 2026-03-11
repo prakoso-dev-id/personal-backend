@@ -27,8 +27,8 @@ COPY --from=builder /app/server .
 
 # Config is handled via environment variables (.env file)
 
-# Create storage directory
-RUN mkdir -p /app/storage/uploads
+# Create storage directories
+RUN mkdir -p /app/storage/uploads /app/storage/avatars /app/storage/resumes
 
 EXPOSE 8080
 

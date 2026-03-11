@@ -1,3 +1,4 @@
+basePath: /api
 definitions:
   auth.LoginRequest:
     properties:
@@ -314,17 +315,6 @@ definitions:
       url:
         type: string
     type: object
-  profiles.UpdateProfileRequest:
-    properties:
-      avatar_url:
-        type: string
-      bio:
-        type: string
-      full_name:
-        type: string
-      resume_url:
-        type: string
-    type: object
   projects.CreateProjectRequest:
     properties:
       content_markdown:
@@ -456,8 +446,19 @@ definitions:
       name:
         type: string
     type: object
+host: localhost:8080
 info:
-  contact: {}
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: Backend API for Personal Website.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Personal Website API
+  version: "1.0"
 paths:
   /admin/experiences:
     get:
@@ -864,15 +865,26 @@ paths:
   /admin/profile:
     put:
       consumes:
-      - application/json
-      description: Update details of the user profile
+      - multipart/form-data
+      description: Update details of the user profile. Avatar and resume are uploaded
+        as files.
       parameters:
-      - description: Profile Data
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/profiles.UpdateProfileRequest'
+      - description: Full Name
+        in: formData
+        name: full_name
+        type: string
+      - description: Bio
+        in: formData
+        name: bio
+        type: string
+      - description: Avatar Image (jpg, jpeg, png, webp - max 5MB)
+        in: formData
+        name: avatar
+        type: file
+      - description: Resume File (pdf, doc, docx - max 10MB)
+        in: formData
+        name: resume
+        type: file
       produces:
       - application/json
       responses:
@@ -1391,4 +1403,9 @@ paths:
       summary: Public - Get All Skills
       tags:
       - Public - Skills
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

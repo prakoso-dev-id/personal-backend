@@ -184,10 +184,13 @@
         "summary": "Update Profile",
         "auth_required": true,
         "body": {
-          "full_name": "string",
-          "bio": "string",
-          "avatar_url": "string",
-          "resume_url": "string"
+          "content_type": "multipart/form-data",
+          "fields": {
+            "full_name": "string",
+            "bio": "string",
+            "avatar": "file (optional, jpg/jpeg/png/webp - max 5MB)",
+            "resume": "file (optional, pdf/doc/docx - max 10MB)"
+          }
         }
       }
     ]

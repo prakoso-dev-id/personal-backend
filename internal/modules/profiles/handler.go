@@ -40,11 +40,14 @@ func (h *Handler) GetProfile(c *gin.Context) {
 
 // UpdateProfile godoc
 // @Summary      Admin - Update Profile
-// @Description  Update details of the user profile
+// @Description  Update details of the user profile. Avatar and resume are uploaded as files.
 // @Tags         Admin - Profile
-// @Accept       json
+// @Accept       multipart/form-data
 // @Produce      json
-// @Param        request body UpdateProfileRequest true "Profile Data"
+// @Param        full_name formData string false "Full Name"
+// @Param        bio       formData string false "Bio"
+// @Param        avatar    formData file   false "Avatar Image (jpg, jpeg, png, webp - max 5MB)"
+// @Param        resume    formData file   false "Resume File (pdf, doc, docx - max 10MB)"
 // @Security     BearerAuth
 // @Success      200  {object}  Profile
 // @Failure      400  {object}  map[string]string
@@ -77,9 +80,19 @@ func (h *Handler) UpdateProfile(c *gin.Context) {
 	}
 
 	var req UpdateProfileRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Error(c, http.StatusBadRequest, "Invalid request", err.Error())
-		return
+	req.FullName = c.PostForm("full_name")
+	req.Bio = c.PostForm("bio")
+
+	// Get avatar file (optional)
+	avatarFile, err := c.FormFile("avatar")
+	if err == nil {
+		req.AvatarFile = avatarFile
+	}
+
+	// Get resume file (optional)
+	resumeFile, err := c.FormFile("resume")
+	if err == nil {
+		req.ResumeFile = resumeFile
 	}
 
 	profile, err := h.service.CreateOrUpdateProfile(userID, &req)

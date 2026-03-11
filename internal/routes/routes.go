@@ -24,6 +24,8 @@ import (
 func RegisterRoutes(r *gin.Engine, db *gorm.DB, cfg *config.Config) {
 	// Initialize base URL for image paths
 	images.SetBaseURL(cfg.Server.BaseURL)
+	// Initialize base URL for profile file paths (avatar, resume)
+	profiles.SetBaseURL(cfg.Server.BaseURL)
 
 	// Swagger Info
 	docs.SwaggerInfo.BasePath = "/api"
